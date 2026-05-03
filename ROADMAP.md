@@ -19,7 +19,7 @@ Fokus pada integritas data, keamanan, dan logika bisnis.
     - [x] Inisialisasi Git & Remote Repository
     - [x] Setup Docker Compose (Postgres & PGAdmin)
     - [x] Dokumentasi Awal (README.md & ROADMAP.md)
-    - [ ] Inisialisasi Project Go (Module setup & folder structure)
+    - [x] Inisialisasi Project Go (Module setup & folder structure)
     - [ ] Konfigurasi Migration Tool (`golang-migrate`)
 - [x] **Desain Database (Production Grade)**
     - [x] Schema `users`, `accounts`, `categories`, `budgets`, `transactions`
