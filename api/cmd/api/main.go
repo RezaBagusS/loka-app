@@ -1,41 +1,57 @@
 package main
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
-	"os"
 
-	"github.com/gin-gonic/gin"
-	"github.com/joho/godotenv"
+	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/chi/v5/middleware"
+	"github.com/RezaBagusS/loka-app/api/internal/config"
+	"github.com/RezaBagusS/loka-app/api/pkg/database"
 )
 
 func main() {
-	// Load .env file from root
-	err := godotenv.Load("../../.env")
+	// 1. Load Configuration (Viper)
+	cfg, err := config.LoadConfig("../../")
 	if err != nil {
-		log.Println("Warning: .env file not found, using system environment variables")
+		log.Fatalf("Could not load config: %v", err)
 	}
 
-	// Initialize Gin
-	r := gin.Default()
+	// 2. Initialize Database (sqlx)
+	db, err := database.InitDB(cfg.DBUser, cfg.DBPassword, cfg.DBName, cfg.DBPort)
+	if err != nil {
+		log.Printf("Warning: Database connection failed: %v", err)
+	} else {
+		defer db.Close()
+	}
 
-	// Simple Ping Route
-	r.GET("/ping", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
+	// 3. Initialize Chi Router
+	r := chi.NewRouter()
+
+	// Middlewares
+	r.Use(middleware.Logger)
+	r.Use(middleware.Recoverer)
+
+	// Routes
+	r.Get("/ping", func(w http.ResponseWriter, r *http.Request) {
+		res := map[string]string{
 			"message": "pong",
-			"app":     "LokaApp API",
+			"app":     "LokaApp API (Chi + Sqlx + Viper)",
 			"status":  "active",
-		})
+		}
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(res)
 	})
 
-	// Get port from env or default to 8080
-	port := os.Getenv("PORT")
+	// Server Port
+	port := cfg.ServerPort
 	if port == "" {
 		port = "8080"
 	}
 
 	log.Printf("Server starting on port %s...", port)
-	if err := r.Run(":" + port); err != nil {
+	if err := http.ListenAndServe(":" + port, r); err != nil {
 		log.Fatalf("Failed to start server: %v", err)
 	}
 }
