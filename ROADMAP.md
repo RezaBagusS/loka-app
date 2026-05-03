@@ -15,38 +15,50 @@ Dokumen ini berisi rencana pengembangan aplikasi keuangan digital yang terstrukt
 
 ### Fase 1: Fondasi, Backend & Database (Minggu 1-2)
 Fokus pada integritas data, keamanan, dan logika bisnis.
-*   **Setup Lingkungan**:
-    *   Inisialisasi Go dengan *Clean Architecture*.
-    *   Setup Docker Compose (Postgres).
-    *   Konfigurasi Migration Tool (`golang-migrate`).
-*   **Desain Database (Production Grade)**:
-    *   `users`: ID, email, hashed_password.
-    *   `accounts`: ID, user_id, name, type, balance (Decimal/BigInt).
-    *   `categories`: ID, user_id, name, icon, type.
-    *   `budgets`: ID, category_id, amount, period.
-    *   `transactions`: ID, user_id, category_id, account_id, amount, note, date.
-*   **Logika Bisnis Core**:
-    *   **Atomic Updates**: Implementasi DB Transaction untuk setiap pencatatan transaksi agar saldo rekening selalu akurat.
-    *   **Input Validation**: Validasi ketat untuk mencegah input saldo negatif atau kategori ilegal.
-*   **API Core (with Scalability)**:
-    *   `ACCOUNTS & CATEGORIES`: CRUD lengkap.
-    *   `TRANSACTIONS`: CRUD dengan fitur **Pagination** dan **Date-Range Filtering**.
-    *   `AUTH`: JWT + Refresh Token logic.
+- [ ] **Setup Lingkungan & Repository**
+    - [x] Inisialisasi Git & Remote Repository
+    - [x] Setup Docker Compose (Postgres & PGAdmin)
+    - [x] Dokumentasi Awal (README.md & ROADMAP.md)
+    - [ ] Inisialisasi Project Go (Module setup & folder structure)
+    - [ ] Konfigurasi Migration Tool (`golang-migrate`)
+- [x] **Desain Database (Production Grade)**
+    - [x] Schema `users`, `accounts`, `categories`, `budgets`, `transactions`
+    - [x] Implementasi UUID & Enum Types
+    - [x] Penambahan Indexing untuk performa
+- [ ] **Logika Bisnis Core**
+    - [ ] Implementasi DB Transaction (Atomic Updates)
+    - [ ] Input Validation (Request DTOs)
+    - [ ] Error Handling Middleware
+- [ ] **API Core (with Scalability)**
+    - [ ] Auth System (JWT + Refresh Token)
+    - [ ] Accounts & Categories CRUD
+    - [ ] Transactions CRUD (with Pagination & Filtering)
+    - [ ] Dashboard Summary API
 
 ### Fase 2: Antarmuka Pengguna & Integrasi (Minggu 3-4)
 Membangun UI yang cepat, cantik, dan responsif.
-*   **Stack**: React.js, Tailwind CSS, shadcn/ui.
-*   **State Management**: TanStack Query (untuk caching & optimisctic updates).
-*   **Mobile-First Design**: Memastikan input pengeluaran nyaman digunakan di layar HP.
-*   **Dashboard Utama**:
-    *   **Wallet Selector**: Menampilkan saldo per rekening.
-    *   **Progress Bar Budget**: Visualisasi real-time per kategori.
-*   **Visualisasi Data**: Chart distribusi pengeluaran mingguan/bulanan.
+- [ ] **Frontend Setup**
+    - [ ] Inisialisasi React (Vite) + Tailwind CSS
+    - [ ] Integrasi shadcn/ui & Icons
+    - [ ] Setup Axios & TanStack Query
+- [ ] **Dashboard & Visualisasi**
+    - [ ] Wallet/Account Selector Component
+    - [ ] Budget Progress Tracking
+    - [ ] Expense Charts (Recharts)
+- [ ] **Feature Implementation**
+    - [ ] Transaction Entry Form (Mobile-First)
+    - [ ] Transaction History with Pagination
+    - [ ] Category Management UI
 
 ### Fase 3: Quality Assurance & Cloud Deployment (Minggu 5)
-*   **Testing**: Unit testing untuk perhitungan saldo dan integrasi API.
-*   **CI/CD**: GitHub Actions untuk otomatisasi testing & deployment.
-*   **Deployment**: Railway/Render/VPS + Vercel.
+- [ ] **Testing & Polish**
+    - [ ] Unit Testing Backend (Logic calculation)
+    - [ ] Integration Testing API
+    - [ ] Bug fixing & Performance tuning
+- [ ] **Deployment**
+    - [ ] Setup GitHub Actions (CI/CD)
+    - [ ] Deploy Backend (Railway/VPS)
+    - [ ] Deploy Frontend (Vercel)
 
 ---
 
@@ -57,4 +69,4 @@ Membangun UI yang cepat, cantik, dan responsif.
 - [ ] **Trading Journal**: Modul khusus SMC/Bandarmologi.
 
 ---
-*Roadmap ini adalah panduan hidup yang akan disesuaikan dengan kendala teknis di lapangan.*
+*Terakhir diperbarui: 4 Mei 2026*
